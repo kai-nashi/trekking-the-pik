@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "flat-price"
+version = "0.1.0"
+description = ""
+authors = ["Nikakto <black-z@bk.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+httpx = "^0.25.2"
+click = "^8.1.7"
+pydantic = "^2.5.2"
+
+[tool.poetry.scripts]
+update_flat_by_block = 'flat_price.commands.flat_by_block:update'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
