@@ -6,7 +6,7 @@ from typing import Self
 from pydantic import BaseModel
 from pydantic import fields
 
-from flat_price.api.models.flat_by_block import Flat as FlatApi
+from trekking_the_pik.api.models.flat_by_block import Flat as FlatApi
 
 
 FLAT_STATUS = Literal['free', 'reserve', 'sold']

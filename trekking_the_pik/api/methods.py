@@ -1,8 +1,8 @@
 import httpx
 
-from flat_price.api import logger
-from flat_price.api.models.flat_by_block import Flat
-from flat_price.api.models.flat_by_block import FlatsByBlock
+from trekking_the_pik.api import logger
+from trekking_the_pik.api.models.flat_by_block import Flat
+from trekking_the_pik.api.models.flat_by_block import FlatsByBlock
 
 
 def get_flats_by_block(complex_id, bulk_id) -> list[Flat]:

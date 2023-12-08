@@ -5,9 +5,9 @@ from typing import Iterable
 
 import click
 
-from flat_price.api import client as pik
-from flat_price.models.blocks import Change
-from flat_price.models.blocks import Flat
+from trekking_the_pik.api import client as pik
+from trekking_the_pik.models.blocks import Change
+from trekking_the_pik.models.blocks import Flat
 
 
 stream_handler = logging.StreamHandler()

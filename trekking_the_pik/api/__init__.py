@@ -10,11 +10,11 @@ from httpx._client import UseClientDefault
 from httpx._types import AuthTypes
 from pydantic import conint
 
-from flat_price.api.models.blocks import Block
-from flat_price.api.models.blocks import Blocks
-from flat_price.api.models.flat_by_block import Flat
-from flat_price.api.models.flat_by_block import FlatsByBlock
-from flat_price.api.models.generics import Pagination
+from trekking_the_pik.api.models.blocks import Block
+from trekking_the_pik.api.models.blocks import Blocks
+from trekking_the_pik.api.models.flat_by_block import Flat
+from trekking_the_pik.api.models.flat_by_block import FlatsByBlock
+from trekking_the_pik.api.models.generics import Pagination
 
 stream_handler = logging.StreamHandler()
 

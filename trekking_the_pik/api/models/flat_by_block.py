@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from pydantic import fields
 
-from flat_price.api.models.generics import BaseData
-from flat_price.api.models.generics import BaseResponse
+from trekking_the_pik.api.models.generics import BaseData
+from trekking_the_pik.api.models.generics import BaseResponse
 
 
 class FlatsByBlock(BaseResponse):
