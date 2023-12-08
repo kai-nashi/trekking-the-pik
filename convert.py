@@ -1,6 +1,6 @@
 import json
 
-from flat_price.models.complexes import Flat
+from flat_price.models.blocks import Flat
 
 
 with open('flats.backup.json', 'r', encoding="utf-8") as file:
