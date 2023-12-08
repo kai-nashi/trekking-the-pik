@@ -1,5 +1,6 @@
 import json
 import logging
+import os.path
 from typing import Iterable
 
 import click
@@ -19,10 +20,12 @@ logger.addHandler(stream_handler)
 @click.command
 @click.option('--block', '-b', 'blocks_filter', multiple=True, type=str)
 def update(blocks_filter: list[str]):
-    with open('flats.json', 'r', encoding="utf-8") as file:
-        data_str = file.read()
-        data_json = json.loads(data_str)
-        flats = {flat.id: flat for flat_json in data_json if (flat := Flat.model_validate(flat_json))}
+    flats = {}
+    if os.path.isfile('flats.json'):
+        with open('flats.json', 'r', encoding="utf-8") as file:
+            data_str = file.read()
+            data_json = json.loads(data_str)
+            flats = {flat.id: flat for flat_json in data_json if (flat := Flat.model_validate(flat_json))}
 
     flats_processed = set()
 
