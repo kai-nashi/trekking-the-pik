@@ -20,9 +20,11 @@ logger.addHandler(stream_handler)
 @click.command
 @click.option('--block', '-b', 'blocks_filter', multiple=True, type=str)
 def update(blocks_filter: list[str]):
+    file_path = '../trekking-the-pik-front/flats.json'
+
     flats = {}
-    if os.path.isfile('flats.json'):
-        with open('flats.json', 'r', encoding="utf-8") as file:
+    if os.path.isfile(file_path):
+        with open(file_path, 'r', encoding="utf-8") as file:
             data_str = file.read()
             data_json = json.loads(data_str)
             flats = {flat.id: flat for flat_json in data_json if (flat := Flat.model_validate(flat_json))}
@@ -65,7 +67,7 @@ def update(blocks_filter: list[str]):
         flat.status = 'sold'
 
     result = [json.loads(flat.model_dump_json()) for flat in flats.values()]
-    with open('flats.json', 'w', encoding="utf-8") as file:
+    with open(file_path, 'w', encoding="utf-8") as file:
         file.write(json.dumps(result, indent=4, ensure_ascii=False))
 
 
