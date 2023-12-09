@@ -10,6 +10,8 @@ python = "^3.11"
 httpx = "^0.25.2"
 click = "^8.1.7"
 pydantic = "^2.5.2"
+pygithub = "^2.1.1"
+pydantic-settings = "^2.1.0"
 
 [tool.poetry.scripts]
 update_flat_by_block = 'trekking_the_pik.commands.flat_by_block:update'

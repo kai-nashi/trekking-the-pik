@@ -56,7 +56,7 @@ class Client(httpx.Client):
 
     @staticmethod
     def get_all_pages(
-        method: callable,
+        method: typing.Callable[..., list],
         *args,
         **kwargs
     ) -> list:
