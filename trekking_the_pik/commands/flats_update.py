@@ -62,6 +62,7 @@ class FlatsList(UserDict):
 
         if json_data == file.decoded_content.decode():
             logger.debug(f'{settings.flats_repo_file_path} not changed')
+            return
 
         path = settings.flats_repo_file_path
         if path.startswith('/'):
