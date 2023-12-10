@@ -9,6 +9,7 @@ import click
 
 from trekking_the_pik.api import Block
 from trekking_the_pik.api import client as pik
+from trekking_the_pik.conf import repo_flats
 from trekking_the_pik.conf import settings
 from trekking_the_pik.models.blocks import Change
 from trekking_the_pik.models.blocks import Flat
@@ -42,10 +43,31 @@ class FlatsList(UserDict):
         flats = [Flat.model_validate(flat_json) for flat_json in data_json]
         return cls(flats=flats)
 
+    @classmethod
+    def from_git(cls):
+        file = repo_flats.get_contents(settings.flats_repo_file_path)
+        return cls.from_json(file.decoded_content)
+
+    def json(self):
+        data = [json.loads(flat.model_dump_json()) for flat in self.values()]
+        return json.dumps(data, indent=4, ensure_ascii=False)
+
     def save_to_file(self, path: str):
-        result = [json.loads(flat.model_dump_json()) for flat in self.values()]
         with open(path, 'w', encoding="utf-8") as file:
-            file.write(json.dumps(result, indent=4, ensure_ascii=False))
+            file.write(self.json())
+
+    def save_to_git(self):
+        file = repo_flats.get_contents(settings.flats_repo_file_path)
+        json_data = self.json()
+
+        if json_data == file.decoded_content.decode():
+            logger.debug(f'{settings.flats_repo_file_path} not changed')
+
+        path = settings.flats_repo_file_path
+        if path.startswith('/'):
+            path = path[1:]
+
+        repo_flats.update_file(path, "chore: flats.json /auto", json_data, file.sha)
 
 
 def get_blocks_filtered(blocks_only: list[int | str] = None) -> list[Block]:
@@ -60,8 +82,8 @@ def get_blocks_filtered(blocks_only: list[int | str] = None) -> list[Block]:
 
 @click.command
 @click.option('--block', '-b', 'blocks_only', multiple=True, type=str)
-def update(blocks_only: list[str]):
-    flats = FlatsList.from_file(settings.flats_file_path)
+def flats_update(blocks_only: list[str]):
+    flats = FlatsList.from_git()
     flats_processed = set()
 
     blocks = get_blocks_filtered(blocks_only=blocks_only)
@@ -94,7 +116,7 @@ def update(blocks_only: list[str]):
         flat.changelog.append(Change(key='status', value=flat.status, value_new='sold'))
         flat.status = 'sold'
 
-    flats.save_to_file(settings.flats_file_path)
+    flats.save_to_git()
 
 
 if __name__ == '__main__':
@@ -109,4 +131,4 @@ if __name__ == '__main__':
         else:
             args.extend([key, value])
 
-    update(args)
+    flats_update(args)
