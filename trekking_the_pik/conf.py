@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    flats_file_path: str | None = fields.Field(alias="FLATS_FILE_PATH")
+    flats_file_path: str | None = fields.Field(None, alias="FLATS_FILE_PATH")
     flats_repo: str = fields.Field(alias="FLATS_REPO")
     flats_repo_file_path: str = fields.Field(alias="FLATS_REPO_FILE_PATH")
     flats_repo_token: str = fields.Field(alias="FLATS_REPO_TOKEN")
