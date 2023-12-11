@@ -1,18 +1,25 @@
-import github
-from github import Auth
+import boto3
+from botocore.client import BaseClient
 from pydantic import fields
 from pydantic_settings import BaseSettings
 
+from trekking_the_pik.api import Client as PikClient
+
 
 class Settings(BaseSettings):
-    flats_file_path: str | None = fields.Field(None, alias="FLATS_FILE_PATH")
-    flats_repo: str = fields.Field(alias="FLATS_REPO")
-    flats_repo_file_path: str = fields.Field(alias="FLATS_REPO_FILE_PATH")
-    flats_repo_token: str = fields.Field(alias="FLATS_REPO_TOKEN")
+    yandex_aws_access_key_id: str = fields.Field(alias="YANDEX_AWS_ACCESS_KEY_ID")
+    yandex_aws_secret_access_key: str = fields.Field(alias="YANDEX_AWS_SECRET_ACCESS_KEY")
+    yandex_aws_bucket: str = fields.Field(alias="YANDEX_AWS_BUCKET")
+    yandex_aws_flats_key: str = fields.Field(alias="YANDEX_AWS_FLATS_KEY")
 
 
 settings = Settings()
 
-git_auth = auth = Auth.Token(settings.flats_repo_token)
-git = github.Github(auth=git_auth)
-repo_flats = git.get_user().get_repo(settings.flats_repo)
+pik = PikClient()
+yandex_s3_session = boto3.session.Session()
+yandex_s3: BaseClient = yandex_s3_session.client(
+    service_name='s3',
+    endpoint_url='https://storage.yandexcloud.net',
+    aws_access_key_id=settings.yandex_aws_access_key_id,
+    aws_secret_access_key=settings.yandex_aws_secret_access_key,
+)

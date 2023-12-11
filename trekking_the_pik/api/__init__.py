@@ -110,5 +110,3 @@ class Client(httpx.Client):
 
         return response_model.data.items, pagination
 
-
-client = Client()

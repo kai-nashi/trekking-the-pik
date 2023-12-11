@@ -10,11 +10,12 @@ python = "^3.11"
 httpx = "^0.25.2"
 click = "^8.1.7"
 pydantic = "^2.5.2"
-pygithub = "^2.1.1"
 pydantic-settings = "^2.1.0"
+boto3 = "^1.33.11"
+pygithub = "^2.1.1"
 
 [tool.poetry.scripts]
-flats_update = 'trekking_the_pik.commands.flats_update:flats_update'
+flats_update = 'trekking_the_pik.commands.flats_update:command'
 
 [build-system]
 requires = ["poetry-core"]
