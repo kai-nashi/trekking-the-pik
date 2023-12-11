@@ -75,15 +75,13 @@ def get_blocks_filtered(blocks_only: list[int | str] = None) -> list[Block]:
     blocks = pik.get_blocks()
 
     if blocks_only:
-        blocks_only = [int(_v) if _v.isdigit() else _v for _v in blocks_only]
+        blocks_only = [int(_v) if isinstance(_v, str) and _v.isdigit() else _v for _v in blocks_only]
         blocks = [block for block in blocks if {block.id, block.name} & set(blocks_only)]
 
     return blocks
 
 
-@click.command
-@click.option('--block', '-b', 'blocks_only', multiple=True, type=str)
-def flats_update(blocks_only: list[str]):
+def flats_update(blocks_only: list[int | str]):
     flats = FlatsList.from_git()
     flats_processed = set()
 
@@ -120,6 +118,12 @@ def flats_update(blocks_only: list[str]):
     flats.save_to_git()
 
 
+@click.command
+@click.option('--block', '-b', 'blocks_only', multiple=True, type=str)
+def command(blocks_only: list[str]):
+    flats_update(blocks_only)
+
+
 if __name__ == '__main__':
     params = {
         '--block': [1724, 2014]
@@ -132,4 +136,4 @@ if __name__ == '__main__':
         else:
             args.extend([key, value])
 
-    flats_update(args)
+    command(args)
